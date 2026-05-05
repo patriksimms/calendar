@@ -1,0 +1,33 @@
+## EE-108 — Modernize calendar package build (2026-05-05)
+
+Replaced legacy rc-tools/Babel build with tsdown (rolldown-based).
+
+What landed:
+- `tsdown.config.ts` emits CJS to `lib/` and ESM to `es/` in unbundle mode (one
+  output per source file, preserving deep-import paths).
+- Both formats output `.js` so consumers' documented `lib/RangeCalendar`,
+  `lib/locale/en_US`, etc. paths keep resolving.
+- Less compile step is `lessc assets/index.less assets/index.css`. Less sources
+  remain published artifacts under `assets/`.
+- `package.json`: `build` is `tsdown && lessc ...`; added `typecheck`,
+  `peerDependencies` for React 19 (`>=16.9.0 || ^17 || ^18 || ^19`); dropped
+  `rc-tools`, `babel-runtime`, and `dist` from `files`.
+- Smoke test: `tests/package.smoke.vitest.ts` runs `bun run build` once and
+  asserts CJS/ESM defaults, deep imports, locale imports, less + compiled CSS,
+  the `index.d.ts` entrypoint, and the published manifest.
+- Renamed JSX-bearing `.js` source files to `.jsx` (`RangeCalendar.jsx`,
+  `date/DateInput.jsx`, `mixin/CalendarMixin.jsx`, `month/MonthTable.jsx`,
+  `range-calendar/CalendarPart.jsx`) so oxc parses them. Output paths are
+  unaffected — consumers always import the compiled `.js`.
+- `tsconfig.json` JSX is now `react` (was `preserve`) so the same config drives
+  both `tsc --noEmit` and tsdown's transform.
+
+Notes for the next person:
+- The legacy jest+enzyme suite (`bun run test:jest`) is still on React 16 and
+  is NOT touched by this slice — it is a separate migration. The vitest run
+  (`bun run test`) is the verification path used here.
+- tsdown emits a small `lib/_virtual/_rolldown/runtime.js` helper used by the
+  CJS interop. It ships as part of `lib/` and is required by the compiled
+  modules; do not delete it manually.
+- If you add new JSX in a `.js` file under `src/`, rename it to `.jsx` or oxc
+  will throw `[PARSE_ERROR] JSX syntax is disabled`.

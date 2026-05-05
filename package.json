@@ -14,8 +14,7 @@
   "files": [
     "lib",
     "es",
-    "assets/*.css",
-    "dist",
+    "assets",
     "index.d.ts"
   ],
   "main": "lib/index",
@@ -31,26 +30,17 @@
   },
   "licenses": "MIT",
   "packageManager": "bun@1.3.9",
-  "config": {
-    "port": 8002,
-    "entry": {
-      "rc-calendar": [
-        "./assets/index.less",
-        "./src/index.js"
-      ]
-    }
-  },
   "scripts": {
-    "build": "rc-tools run build",
-    "gh-pages": "rc-tools run gh-pages",
-    "start": "rc-tools run server",
-    "compile": "rc-tools run compile --babel-runtime",
-    "pub": "rc-tools run pub --babel-runtime",
+    "build": "tsdown && lessc assets/index.less assets/index.css",
+    "build:js": "tsdown",
+    "build:css": "lessc assets/index.less assets/index.css",
+    "prepublishOnly": "bun run build",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "test": "vitest --run",
     "test:jest": "jest",
+    "typecheck": "tsc --noEmit",
     "types": "tsc --noEmit",
     "coverage": "jest --coverage"
   },
@@ -64,10 +54,11 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "transform": {
-      "\\.jsx?$": "./node_modules/rc-tools/scripts/jestPreprocessor.js"
-    },
     "testURL": "http://localhost"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": ">=16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@types/react": "^16.3.13",
@@ -75,20 +66,20 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.1",
     "jest": "^22.1.4",
+    "less": "^4.0.0",
     "mockdate": "^2.0.1",
     "oxfmt": "^0.47.0",
     "oxlint": "^1.62.0",
     "rc-dialog": "^7.0.0",
     "rc-select": "^9.1.5",
     "rc-time-picker": "^3.1.0",
-    "rc-tools": "^7.0.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "tsdown": "^0.21.10",
     "typescript": "^5.0.0",
     "vitest": "^4.1.5"
   },
   "dependencies": {
-    "babel-runtime": "6.x",
     "classnames": "2.x",
     "moment": "2.x",
     "prop-types": "^15.5.8",
