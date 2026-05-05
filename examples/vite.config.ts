@@ -1,15 +1,32 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 
 const __filename = fileURLToPath(import.meta.url);
 const examplesDir = path.dirname(__filename);
 const repoRoot = path.resolve(examplesDir, '..');
 
+const stripLegacyMutationObserverRequire = (): Plugin => ({
+    name: 'strip-legacy-mutationobserver-require',
+    transform(code, id) {
+        if (!/rc-menu[/\\](es|lib)[/\\]DOMWrap\.js$/.test(id)) return null;
+
+        const nextCode = code.replace(
+            /\nif \(canUseDOM\) \{\n\s*(?:\/\/[^\n]*\n)?\s*require\(['"]mutationobserver-shim['"]\);\n\}/,
+            '',
+        );
+
+        return {
+            code: nextCode,
+            map: null,
+        };
+    },
+});
+
 export default defineConfig({
     base: process.env.VITE_BASE || '/',
-    plugins: [react()],
+    plugins: [stripLegacyMutationObserverRequire(), react()],
     root: examplesDir,
     resolve: {
         alias: {

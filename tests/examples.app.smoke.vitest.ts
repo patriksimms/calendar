@@ -105,6 +105,13 @@ describe('examples app', () => {
         expect(app).toMatch(/BASE_URL/);
     });
 
+    it('strips rc-menu legacy browser require from the production bundle', () => {
+        const viteConfig = readFileSync(path.join(examplesDir, 'vite.config.ts'), 'utf8');
+
+        expect(viteConfig).toMatch(/stripLegacyMutationObserverRequire/);
+        expect(viteConfig).toMatch(/mutationobserver-shim/);
+    });
+
     it('imports the calendar package through workspace source paths', () => {
         const basic = readFileSync(path.join(examplesDir, 'src', 'demos', 'Basic.tsx'), 'utf8');
         expect(basic).toMatch(/from\s+['"][^'"]*src\/Calendar['"]/);
