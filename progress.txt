@@ -1,3 +1,68 @@
+## EE-110 — Modern examples, CI, migration docs (2026-05-05)
+
+Replaced the legacy rc-tools example workflow with a Vite React 19 demo app,
+added GitHub Actions CI for Node 20 + 22, and rewrote the README around the
+modern toolchain.
+
+What landed:
+- Removed every legacy `examples/*.html` + `examples/*.js` file.
+- New standalone Vite app under `examples/`:
+  - `examples/package.json` (private, Vite 6, React 19, types, plus the demo-only
+    deps `rc-dialog`, `rc-select`, `rc-time-picker`).
+  - `examples/vite.config.ts` aliases `rc-calendar`, `rc-calendar/src/*`, and
+    `rc-calendar/assets/*` to the local sources so the demo exercises the
+    package through the live `src/` tree.
+  - `examples/tsconfig.json` with `jsx: react-jsx`, bundler module resolution.
+  - `examples/index.html` mounts a React 19 root via `<script type="module">`.
+  - `examples/src/main.tsx` boots with `createRoot` (no `ReactDOM.render`).
+  - `examples/src/App.tsx` is a hash-routed demo switcher.
+  - `examples/src/demos/*.tsx`: Basic, RangeCalendar, WeekCalendar,
+    MonthCalendar, FullCalendar, CustomClearIcon, Container, ControlPanel,
+    StartEnd, StartEndRange — covering every legacy scenario.
+  - All demos import the package via `rc-calendar/src/*` (Calendar,
+    RangeCalendar, MonthCalendar, FullCalendar, Picker, locale/en_US).
+- `.github/workflows/ci.yml` runs install/lint/typecheck/test/build/pack on
+  Node 20 + 22 via `actions/setup-node` + `oven-sh/setup-bun` (frozen lockfile
+  install). Triggers on push to `main`/`master`/`9.x`/`10.x` and on PRs.
+- README rewritten:
+  - Documents the modern stack: tsdown, vite, vitest + RTL, oxlint/oxfmt, bun,
+    React 19 peer support.
+  - Adds a Development section covering install/typecheck/lint/test/build,
+    plus a Demo section showing `cd examples && bun install && bun run dev`.
+  - Style import section covers both `assets/index.less` and the compiled
+    `assets/index.css` artefact.
+  - Browser support reframed as evergreen Chrome/Firefox/Safari/Edge — IE9
+    claim removed.
+  - Removed the broken Travis/Codecov/LGTM/etc. badges that pointed at dead
+    services.
+  - Avoids release/version/CHANGELOG language in the dev docs (per AC).
+- New TDD smoke tests under `tests/`:
+  - `examples.app.smoke.vitest.ts` — asserts the Vite + React 19 deps,
+    `vite.config.*`, root mount, `createRoot` use, no `ReactDOM.render`
+    anywhere under `examples/`, and that all ten demo files exist.
+  - `ci.workflow.vitest.ts` — parses `.github/workflows/ci.yml` and asserts
+    the install/lint/typecheck/test/build/`npm pack --dry-run` pipeline runs
+    on a Node 20 + 22 matrix and triggers on push + pull_request.
+  - `readme.docs.vitest.ts` — asserts README mentions the modern toolchain
+    (tsdown/vite/vitest/oxlint), the asset import path, the demo workflow,
+    the testing approach, evergreen browsers (no IE9), and that the dev
+    section is free of release/version/CHANGELOG wording.
+
+Notes for the next person:
+- The examples app is intentionally separate from the root install — `bun
+  install` at the repo root does NOT install Vite or the demo-only deps.
+  `cd examples && bun install` is required before `bun run dev`.
+- The Vite alias `rc-calendar -> ../src` means the demo always runs against
+  the live source tree (no `bun run build` needed for the demo). The package
+  smoke test still drives the compiled artefacts.
+- CI uses `npm pack --dry-run` (not `bun pm pack`) because `npm pack` is the
+  reference contract for what gets published to the npm registry.
+- React 19 peer + the findDOMNode polyfill from EE-109 still apply — no
+  changes needed there.
+- Locales currently default to en_US in the demos; previously demos toggled
+  zh_CN via `?cn` query param. That toggle is dropped — keeping examples
+  focused on the English happy path. Any locale can be re-imported per demo.
+
 ## EE-109 — React 19-compatible runtime + RTL test foundation (2026-05-05)
 
 Made calendar runtime + tests React 19-compatible.

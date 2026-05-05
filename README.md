@@ -1,745 +1,232 @@
 # rc-calendar
----
 
-React Calendar
+React Calendar component, built around `moment` for date math and i18n.
 
-[![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
-[![Test coverage][codecov-image]][codecov-url]
-[![gemnasium deps][gemnasium-image]][gemnasium-url]
-[![npm download][download-image]][download-url]
-[![Code Quality: Javascript][lgtm-badge]][lgtm-badge-url]
-[![Total alerts][lgtm-alerts]][lgtm-alerts-url]
+## Features
 
-[npm-image]: http://img.shields.io/npm/v/rc-calendar.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/rc-calendar
-[travis-image]: https://img.shields.io/travis/react-component/calendar.svg?style=flat-square
-[travis-url]: https://travis-ci.org/react-component/calendar
-[codecov-image]: https://img.shields.io/codecov/c/github/react-component/calendar/master.svg?style=flat-square
-[codecov-url]: https://codecov.io/gh/react-component/calendar/branch/master
-[gemnasium-image]: http://img.shields.io/gemnasium/react-component/calendar.svg?style=flat-square
-[gemnasium-url]: https://gemnasium.com/react-component/calendar
-[node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
-[node-url]: http://nodejs.org/download/
-[download-image]: https://img.shields.io/npm/dm/rc-calendar.svg?style=flat-square
-[download-url]: https://npmjs.org/package/rc-calendar
-[lgtm-badge]: https://img.shields.io/lgtm/grade/javascript/g/react-component/calendar.svg?logo=lgtm&logoWidth=18
-[lgtm-badge-url]: https://lgtm.com/projects/g/react-component/calendar/context:javascript
-[lgtm-alerts]: https://img.shields.io/lgtm/alerts/g/react-component/calendar.svg?logo=lgtm&logoWidth=18
-[lgtm-alerts-url]: https://lgtm.com/projects/g/react-component/calendar/alerts
+- date, month, year, decade, and time panels
+- range calendar with two synced panels and hover preview
+- full calendar with month/date layouts
+- week-number selection mode
+- localized labels (50+ locales) and `moment.utcOffset` time zones
+- ARIA attributes and keyboard navigation
+- works with React 16.9+ through React 19
 
-## Screenshots
+### Browser support
 
-<img src="https://img.alicdn.com/tps/TB1mYC8KVXXXXaHXXXXXXXXXXXX-566-678.png" width="288"/>
-
-<img src="https://img.alicdn.com/tps/TB1KW1HKVXXXXa9aXXXXXXXXXXX-578-694.png" width="288"/>
-
-<img src="https://img.alicdn.com/tps/TB1QYqPKVXXXXasXVXXXXXXXXXX-1196-712.png" width="288"/>
-
-<img src="https://img.alicdn.com/tps/TB1nAGDKVXXXXXvapXXXXXXXXXX-1206-730.png" width="500"/>
-
-## Feature
-
-* support ie9,ie9+,chrome,firefox,safari
-* support date, month, year, decade select panel
-* support week number
-* support en_US and zh_CN locale(UI), use moment.utcOffset to set timezone
-* support aria and keyboard accessibility
+Modern evergreen browsers: latest Chrome, Firefox, Safari, and Edge.
 
 ### Keyboard
 
-* Previous month (PageUp)
-* Next month (PageDown)
-* tab into hour input: Last hour(Up), Next hour(Down)
-* tab into hour input: Last minute(Up), Next minute(Down)
-* tab into hour input: Last second(Up), Next second(Down)
-* Last year (Control + left)
-* Next year (Control + right)
+- Previous month: PageUp
+- Next month: PageDown
+- Previous year: Ctrl + Left
+- Next year: Ctrl + Right
+- In hour/minute/second time inputs: Up/Down to step
 
-## install
+## Installation
 
-[![rc-calendar](https://nodei.co/npm/rc-calendar.png)](https://npmjs.org/package/rc-calendar)
+```sh
+npm install rc-calendar
+# or
+bun add rc-calendar
+# or
+yarn add rc-calendar
+```
 
 ## Usage
 
-```js
+```jsx
+import { createRoot } from 'react-dom/client';
 import Calendar from 'rc-calendar';
-import React from 'react';
-import ReactDOM from 'react-dom';
-ReactDOM.render(<Calendar />, container);
+import 'rc-calendar/assets/index.css';
+
+createRoot(document.getElementById('root')).render(<Calendar />);
 ```
+
+### Styles
+
+The package ships both Less sources and a precompiled stylesheet under
+`assets/`:
+
+- `import 'rc-calendar/assets/index.css';` — drop-in compiled styles.
+- `import 'rc-calendar/assets/index.less';` — Less source for theming.
 
 ## Development
 
+The project uses a modern toolchain:
+
+- **Build:** [`tsdown`](https://github.com/sxzz/tsdown) (rolldown-based)
+  emits CJS to `lib/` and ESM to `es/`. Less sources are compiled to
+  `assets/index.css` via the `lessc` CLI.
+- **Lint / format:** [`oxlint`](https://oxc.rs/docs/guide/usage/linter.html)
+  and [`oxfmt`](https://oxc.rs/docs/guide/usage/formatter.html).
+- **Type check:** `tsc --noEmit` against `index.d.ts` and the public
+  TypeScript surface.
+- **Test runner:** [`vitest`](https://vitest.dev) running on `jsdom` with
+  [`@testing-library/react`](https://testing-library.com/docs/react-testing-library/intro/).
+- **Demo app:** [`vite`](https://vitejs.dev) under `examples/` runs against
+  React 19 and the local `src/` sources.
+- **Package manager:** [`bun`](https://bun.sh) is the canonical runner; `bun.lock`
+  is committed.
+
+```sh
+bun install
+bun run typecheck
+bun run lint
+bun run test
+bun run build
 ```
-npm install
-npm start
+
+### Examples / demo app
+
+The `examples/` directory is a standalone Vite React 19 app that exercises
+the package through its public entry points (Calendar, RangeCalendar,
+MonthCalendar, FullCalendar, Picker). It mirrors the historical demo
+scenarios — basic, range, week, month, full calendar, custom clear icon,
+container, control panel, start/end pickers, and start/end range pickers.
+
+```sh
+cd examples
+bun install
+bun run dev
 ```
 
-## Example
+Vite serves the demo at <http://localhost:8002>. Each scenario is
+reachable via the in-app navigation (the URL hash is updated to keep
+deep links working).
 
-http://localhost:8002/examples/
+### Testing approach
 
-online example:
-
-http://react-component.github.io/calendar/examples/index.html
+Tests live under `tests/` as `*.vitest.{ts,tsx}`. They drive the public
+DOM surface with `@testing-library/react`, asserting on rendered output
+and callback invocations rather than internal component state. A
+package smoke test (`tests/package.smoke.vitest.ts`) builds the package
+and verifies the published artefacts: CJS/ESM entrypoints, deep imports
+(`RangeCalendar`, `MonthCalendar`, `Picker`, `FullCalendar`), locale
+imports, the compiled `assets/index.css`, and the `index.d.ts` type
+entry.
 
 ## API
 
-### rc-calendar props
+### Calendar props
 
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th style="width: 50px;">default</th>
-        <th>description</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>prefixCls</td>
-          <td>String</td>
-          <td></td>
-          <td>prefixCls of this component</td>
-        </tr>
-        <tr>
-          <td>className</td>
-          <td>String</td>
-          <td></td>
-          <td>additional css class of root dom node</td>
-        </tr>
-        <tr>
-          <td>style</td>
-          <td>Object</td>
-          <td></td>
-          <td>additional style of root dom node</td>
-        </tr>
-        <tr>
-          <td>dateRender</td>
-          <td>(current, value) => React.Node</td>
-          <td></td>
-          <td>date cell</td>
-        </tr>
-        <tr>
-          <td>renderSidebar</td>
-          <td>() => React.Node</td>
-          <td></td>
-          <td>side bar</td>
-        </tr>
-        <tr>
-          <td>renderFooter</td>
-          <td>(mode) => React.Node</td>
-          <td></td>
-          <td>extra footer</td>
-        </tr>
-        <tr>
-          <td>value</td>
-          <td>moment</td>
-          <td></td>
-          <td>current value like input's value</td>
-        </tr>
-        <tr>
-          <td>defaultValue</td>
-          <td>moment</td>
-          <td></td>
-          <td>defaultValue like input's defaultValue</td>
-        </tr>
-        <tr>
-          <td>locale</td>
-          <td>Object</td>
-          <td>import from 'rc-calendar/lib/locale/en_US'</td>
-          <td>calendar locale</td>
-        </tr>
-        <tr>
-          <td>format</td>
-          <td>String | String[]</td>
-          <td>depends on whether you set timePicker and your locale</td>
-          <td>use to format/parse date(without time) value to/from input.  
-          When an array is provided, all values are used for parsing and first value for display.</td>
-        </tr>
-        <tr>
-          <td>disabledDate</td>
-          <td>Function(current:moment):Boolean</td>
-          <td></td>
-          <td>whether to disable select of current date</td>
-        </tr>
-        <tr>
-          <td>disabledTime</td>
-          <td>Function(current:moment):Object</td>
-          <td></td>
-          <td>a function which return a object with member of disabledHours/disabledMinutes/disabledSeconds according to rc-time-picker</td>
-        </tr>
-        <tr>
-          <td>showDateInput</td>
-          <td>Boolean</td>
-          <td>true</td>
-          <td>whether to show input on top of calendar panel</td>
-        </tr>
-        <tr>
-          <td>showWeekNumber</td>
-          <td>Boolean</td>
-          <td>false</td>
-          <td>whether to show week number of year</td>
-        </tr>
-        <tr>
-          <td>showToday</td>
-          <td>Boolean</td>
-          <td>true</td>
-          <td>whether to show today button</td>
-        </tr>
-        <tr>
-          <td>showOk</td>
-          <td>Boolean</td>
-          <td>auto</td>
-          <td>whether has ok button in footer</td>
-        </tr>
-        <tr>
-          <td>timePicker</td>
-          <td>React Element</td>
-          <td></td>
-          <td>rc-timer-picker/lib/module/panel element</td>
-        </tr>
-        <tr>
-          <td>onSelect</td>
-          <td>Function(date: moment)</td>
-          <td></td>
-          <td>called when a date is selected from calendar</td>
-        </tr>
-        <tr>
-          <td>onClear</td>
-          <td>Function()</td>
-          <td></td>
-          <td>called when a date is cleared from calendar</td>
-        </tr>
-        <tr>
-          <td>onChange</td>
-          <td>Function(date: moment)</td>
-          <td></td>
-          <td>called when a date is changed inside calendar (next year/next month/keyboard)</td>
-        </tr>
-        <tr>
-          <td>onOk</td>
-          <td>Function(date: moment)</td>
-          <td></td>
-          <td>called when ok button is pressed, only if it's visible</td>
-        </tr>
-        <tr>
-          <td>dateInputPlaceholder</td>
-          <td>String</td>
-          <td></td>
-          <td>date input's placeholder</td>
-        </tr>
-        <tr>
-          <td>mode</td>
-          <td>enum('time', 'date', 'month', 'year', 'decade')</td>
-          <td>'date'</td>
-          <td>control which kind of panel should be shown</td>
-        </tr>
-        <tr>
-          <td>onPanelChange</td>
-          <td>Function(date: moment, mode)</td>
-          <td></td>
-          <td>called when panel changed</td>
-        </tr>
-        <tr>
-          <td>clearIcon</td>
-          <td>ReactNode</td>
-          <td></td>
-          <td>specific the clear icon.</td>
-        </tr>
-         <tr>
-          <td>inputMode</td>
-          <td>string</td>
-          <td>text</td>
-          <td>Change the keyboard in mobile device</td>
-        </tr>
-    </tbody>
-</table>
+| name | type | default | description |
+| --- | --- | --- | --- |
+| prefixCls | String | | prefix className for this component |
+| className | String | | additional className for the root node |
+| style | Object | | additional style for the root node |
+| dateRender | (current, value) => ReactNode | | custom date cell renderer |
+| renderSidebar | () => ReactNode | | sidebar renderer |
+| renderFooter | (mode) => ReactNode | | footer renderer |
+| value | moment | | controlled value |
+| defaultValue | moment | | uncontrolled default value |
+| locale | Object | `import 'rc-calendar/lib/locale/en_US'` | locale messages |
+| format | String \| String[] | locale-dependent | input format(s) |
+| disabledDate | (current: moment) => boolean | | disable selection for a date |
+| disabledTime | (current: moment) => Object | | disable hours/minutes/seconds via rc-time-picker |
+| showDateInput | Boolean | true | show the input above the panel |
+| showWeekNumber | Boolean | false | show week-of-year column |
+| showToday | Boolean | true | show the today button |
+| showOk | Boolean | auto | show the OK button |
+| timePicker | ReactElement | | time picker panel (e.g. `rc-time-picker/lib/Panel`) |
+| onSelect | (date: moment) => void | | called when a cell is selected |
+| onClear | () => void | | called when clear is pressed |
+| onChange | (date: moment \| null) => void | | called when value changes (panel/keyboard) |
+| onOk | (date: moment) => void | | called when OK is pressed |
+| dateInputPlaceholder | String | | input placeholder |
+| mode | 'time' \| 'date' \| 'month' \| 'year' \| 'decade' | 'date' | which panel to show |
+| onPanelChange | (date: moment, mode) => void | | called when panel changes |
+| clearIcon | ReactNode | | clear-button icon |
+| inputMode | String | text | mobile input mode |
 
+### RangeCalendar props
 
-### rc-calendar/lib/RangeCalendar props
+| name | type | default | description |
+| --- | --- | --- | --- |
+| prefixCls | String | | prefix className for this component |
+| className | String | | additional className for the root node |
+| style | Object | | additional style for the root node |
+| renderSidebar | () => ReactNode | | sidebar renderer |
+| renderFooter | () => ReactNode | | footer renderer |
+| selectedValue | moment[] | | controlled `[start, end]` |
+| defaultSelectedValue | moment[] | | uncontrolled `[start, end]` |
+| locale | Object | `import 'rc-calendar/lib/locale/en_US'` | locale messages |
+| format | String | locale-dependent | input format |
+| disabledDate | (current: moment) => boolean | | disable selection for a date |
+| showWeekNumber | Boolean | false | show week-of-year column |
+| showToday | Boolean | true | show the today button |
+| showOk | Boolean | auto | show the OK button |
+| showClear | Boolean | false | show the clear button |
+| timePicker | ReactElement | | time picker panel |
+| onSelect | (dates: moment[]) => void | | called when a range is picked |
+| onInputSelect | (dates: moment[]) => void | | called when the input parses a valid date |
+| onClear | () => void | | called when clear is pressed |
+| onChange | (dates: moment[]) => void | | called when value changes |
+| onOk | (date: moment) => void | | called when OK is pressed |
+| dateInputPlaceholder | String[] | | per-input placeholders |
+| disabledTime | (dates: moment[], type: 'start' \| 'end') => Object | | disable hours/minutes/seconds |
+| showDateInput | Boolean | true | show the inputs above the panels |
+| type | 'both' \| 'start' \| 'end' | 'both' | fix start or end of the range |
+| mode | ('date' \| 'month' \| 'year' \| 'decade')[] | ['date', 'date'] | per-panel mode |
+| onPanelChange | (dates: moment[], modes) => void | | called when panel(s) change |
+| hoverValue | moment[] | | controlled hover preview |
+| onHoverChange | (dates: moment[]) => void | | called when hover preview changes |
+| clearIcon | ReactNode | | clear-button icon |
 
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th style="width: 50px;">default</th>
-        <th>description</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>prefixCls</td>
-          <td>String</td>
-          <td></td>
-          <td>prefixCls of this component</td>
-        </tr>
-        <tr>
-          <td>className</td>
-          <td>String</td>
-          <td></td>
-          <td>additional css class of root dom node</td>
-        </tr>
-        <tr>
-          <td>style</td>
-          <td>Object</td>
-          <td></td>
-          <td>additional style of root dom node</td>
-        </tr>
-        <tr>
-          <td>renderSidebar</td>
-          <td>() => React.Node</td>
-          <td></td>
-          <td>side bar</td>
-        </tr>
-        <tr>
-          <td>renderFooter</td>
-          <td>() => React.Node</td>
-          <td></td>
-          <td>extra footer</td>
-        </tr>
-        <tr>
-          <td>selectedValue</td>
-          <td>moment[]</td>
-          <td></td>
-          <td>current selected value range. with two elements.</td>
-        </tr>
-        <tr>
-          <td>defaultSelectedValue</td>
-          <td>moment[]</td>
-          <td></td>
-          <td>default selected value range</td>
-        </tr>
-        <tr>
-          <td>locale</td>
-          <td>Object</td>
-          <td>import from 'rc-calendar/lib/locale/en_US'</td>
-          <td>calendar locale</td>
-        </tr>
-        <tr>
-          <td>format</td>
-          <td>String</td>
-          <td>depends on whether you set timePicker and your locale</td>
-          <td>use to format/parse date(without time) value to/from input</td>
-        </tr>
-        <tr>
-          <td>disabledDate</td>
-          <td>Function(current:moment):Boolean</td>
-          <td></td>
-          <td>whether to disable select of current date</td>
-        </tr>
-        <tr>
-          <td>showWeekNumber</td>
-          <td>Boolean</td>
-          <td>false</td>
-          <td>whether to show week number of year</td>
-        </tr>
-        <tr>
-          <td>showToday</td>
-          <td>Boolean</td>
-          <td>true</td>
-          <td>whether to show today button</td>
-        </tr>
-        <tr>
-          <td>showOk</td>
-          <td>Boolean</td>
-          <td>auto</td>
-          <td>whether has ok button in footer</td>
-        </tr>
-        <tr>
-          <td>showClear</td>
-          <td>Boolean</td>
-          <td>false</td>
-          <td>whether has clear button in header</td>
-        </tr>
-        <tr>
-          <td>timePicker</td>
-          <td>React Element</td>
-          <td></td>
-          <td>rc-timer-picker/lib/module/panel element</td>
-        </tr>
-        <tr>
-          <td>onSelect</td>
-          <td>Function(date: moment[])</td>
-          <td></td>
-          <td>called when a date range is selected from calendar</td>
-        </tr>
-        <tr>
-          <td>onInputSelect</td>
-          <td>Function(date: moment[])</td>
-          <td></td>
-          <td>called when a valid date entered in input</td>
-        </tr>
-        <tr>
-          <td>onClear</td>
-          <td>Function()</td>
-          <td></td>
-          <td>called when a date range is cleared from calendar</td>
-        </tr>
-        <tr>
-          <td>onChange</td>
-          <td>Function(date: moment[])</td>
-          <td></td>
-          <td>called when a date range is changed inside calendar (next year/next month/keyboard)</td>
-        </tr>
-        <tr>
-          <td>onOk</td>
-          <td>Function(date: moment)</td>
-          <td></td>
-          <td>called when ok button is pressed, only if it's visible</td>
-        </tr>
-        <tr>
-          <td>dateInputPlaceholder</td>
-          <td>String[]</td>
-          <td></td>
-          <td>range date input's placeholders</td>
-        </tr>
-        <tr>
-          <td>disabledTime</td>
-          <td>Function(current: moment[], type:'start'|'end'):Object</td>
-          <td></td>
-          <td>a function which return a object with member of disabledHours/disabledMinutes/disabledSeconds according to rc-time-picker</td>
-        </tr>
-        <tr>
-          <td>showDateInput</td>
-          <td>Boolean</td>
-          <td>true</td>
-          <td>whether to show date inputs on top of calendar panels</td>
-        </tr>
-        <tr>
-          <td>type</td>
-          <td>enum('both','start', 'end')</td>
-          <td>both</td>
-          <td>whether fix start or end selected value. check start-end-range example</td>
-        </tr>
-        <tr>
-          <td>mode</td>
-          <td>enum('date', 'month', 'year', 'decade')[]</td>
-          <td>['date', 'date']</td>
-          <td>control which kind of panels should be shown</td>
-        </tr>
-        <tr>
-          <td>onPanelChange</td>
-          <td>Function(date: moment[], mode)</td>
-          <td></td>
-          <td>called when panels changed</td>
-        </tr>
-        <tr>
-          <td>hoverValue</td>
-          <td>moment[]</td>
-          <td></td>
-          <td>control hover value</td>
-        </tr>
-        <tr>
-          <td>onHoverChange</td>
-          <td>Function(hoverValue: moment[])</td>
-          <td></td>
-          <td>called when hover value change</td>
-        </tr>
-        <tr>
-          <td>clearIcon</td>
-          <td>ReactNode</td>
-          <td></td>
-          <td>specific the clear icon.</td>
-        </tr>
-    </tbody>
-</table>
+### MonthCalendar props
 
-### rc-calendar/lib/MonthCalendar props
+| name | type | default | description |
+| --- | --- | --- | --- |
+| prefixCls | String | | prefix className for this component |
+| className | String | | additional className for the root node |
+| style | Object | | additional style for the root node |
+| value | moment | | controlled value |
+| defaultValue | moment | | uncontrolled default value |
+| locale | Object | `import 'rc-calendar/lib/locale/en_US'` | locale messages |
+| disabledDate | (current: moment) => boolean | | disable selection for a month |
+| onSelect | (date: moment) => void | | called when a month is selected |
+| onChange | (date: moment) => void | | called when value changes |
+| monthCellRender | function | | custom month cell renderer |
+| monthCellContentRender | function | | append content to default cell |
+| renderFooter | () => ReactNode | | footer renderer |
 
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th style="width: 50px;">default</th>
-        <th>description</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>prefixCls</td>
-          <td>String</td>
-          <td></td>
-          <td>prefixCls of this component</td>
-        </tr>
-        <tr>
-          <td>className</td>
-          <td>String</td>
-          <td></td>
-          <td>additional css class of root dom node</td>
-        </tr>
-        <tr>
-          <td>style</td>
-          <td>Object</td>
-          <td></td>
-          <td>additional style of root dom node</td>
-        </tr>
-        <tr>
-          <td>value</td>
-          <td>moment</td>
-          <td></td>
-          <td>current value like input's value</td>
-        </tr>
-        <tr>
-          <td>defaultValue</td>
-          <td>moment</td>
-          <td></td>
-          <td>defaultValue like input's defaultValue</td>
-        </tr>
-        <tr>
-          <td>locale</td>
-          <td>Object</td>
-          <td>import from 'rc-calendar/lib/locale/en_US'</td>
-          <td>calendar locale</td>
-        </tr>
-        <tr>
-          <td>disabledDate</td>
-          <td>Function(current:moment):Boolean</td>
-          <td></td>
-          <td>whether to disable select of current month</td>
-        </tr>
-        <tr>
-          <td>onSelect</td>
-          <td>Function(date: moment)</td>
-          <td></td>
-          <td>called when a date is selected from calendar</td>
-        </tr>
-        <tr>
-          <td>monthCellRender</td>
-          <td>function</td>
-          <td></td>
-          <td>Custom month cell render method</td>
-        </tr>
-        <tr>
-          <td>monthCellContentRender</td>
-          <td>function</td>
-          <td></td>
-          <td>Custom month cell content render method,the content will be appended to the cell.</td>
-        </tr>
-        <tr>
-        <tr>
-          <td>onChange</td>
-          <td>Function(date: moment)</td>
-          <td></td>
-          <td>called when a date is changed inside calendar (next year/next month/keyboard)</td>
-        </tr>
-        <tr>
-          <td>renderFooter</td>
-          <td>() => React.Node</td>
-          <td></td>
-          <td>extra footer</td>
-        </tr>
-    </tbody>
-</table>
+### Picker props
 
-### rc-calendar/lib/Picker props
+| name | type | default | description |
+| --- | --- | --- | --- |
+| prefixCls | String | | prefix className |
+| calendar | ReactElement | | the calendar component to render |
+| disabled | Boolean | | disable the picker |
+| placement | String \| Object | | trigger placement |
+| align | Object | | merged into placement's align config (see `dom-align`) |
+| animation | String | | popup animation key (e.g. `slide-up`) |
+| transitionName | String | | popup transition class |
+| value | moment \| moment[] | | controlled value |
+| defaultValue | moment \| moment[] | | uncontrolled value |
+| onChange | (value) => void | | called when value changes |
+| onOpenChange | (open: boolean) => void | | called when popup visibility changes |
+| open | Boolean | | controlled open state |
+| getCalendarContainer | () => HTMLElement | `() => document.body` | popup container |
+| dropdownClassName | String | | className applied to the popup |
 
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th style="width: 50px;">default</th>
-        <th>description</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>prefixCls</td>
-          <td>String</td>
-          <td></td>
-          <td>prefixCls of this component</td>
-        </tr>
-        <tr>
-          <td>calendar</td>
-          <td>Calendar React Element</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>disabled</td>
-          <td>Boolean</td>
-          <td></td>
-          <td>whether picker is disabled</td>
-        </tr>
-        <tr>
-          <td>placement</td>
-          <td>String|Object</td>
-          <td></td>
-          <td>one of ['left','right','top','bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight']</td>
-        </tr>
-        <tr>
-          <td>align</td>
-          <td>Object: alignConfig of [dom-align](https://github.com/yiminghe/dom-align)</td>
-          <td></td>
-          <td>value will be merged into placement's align config.</td>
-        </tr>
-        <tr>
-          <td>animation</td>
-          <td>String</td>
-          <td></td>
-          <td>index.css support 'slide-up'</td>
-        </tr>
-        <tr>
-          <td>transitionName</td>
-          <td>String</td>
-          <td></td>
-          <td>css class for animation</td>
-        </tr>
-        <tr>
-          <td>value</td>
-          <td>moment|moment[]</td>
-          <td></td>
-          <td>current value like input's value</td>
-        </tr>
-        <tr>
-          <td>defaultValue</td>
-          <td>moment|moment[]</td>
-          <td></td>
-          <td>defaultValue like input's defaultValue</td>
-        </tr>
-        <tr>
-          <td>onChange</td>
-          <td>Function</td>
-          <td></td>
-          <td>called when select a different value</td>
-        </tr>
-        <tr>
-          <td>onOpenChange</td>
-          <td>(open:boolean) => void</td>
-          <td></td>
-          <td>called when open/close picker</td>
-        </tr>
-        <tr>
-          <td>open</td>
-          <td>Boolean</td>
-          <td></td>
-          <td>current open state of picker. controlled prop</td>
-        </tr>
-        <tr>
-          <td>getCalendarContainer</td>
-          <td>() => HTMLElement</td>
-          <td>() => {return document.body;}</td>
-          <td>dom node where calendar to be rendered into</td>
-        </tr>
-        <tr>
-          <td>dropdownClassName</td>
-          <td>string</td>
-          <td></td>
-          <td>additional className applied to dropdown</td>
-        </tr>
-    </tbody>
-</table>
+### FullCalendar props
 
-### rc-calendar/lib/FullCalendar props
-
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th style="width: 50px;">default</th>
-        <th>description</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>prefixCls</td>
-          <td>String</td>
-          <td></td>
-          <td>prefixCls of this component</td>
-        </tr>
-        <tr>
-          <td>Select</td>
-          <td>React Component Class</td>
-          <td></td>
-          <td>rc-select Component Class</td>
-        </tr>
-        <tr>
-          <td>value</td>
-          <td>moment</td>
-          <td></td>
-          <td>current value like input's value</td>
-        </tr>
-        <tr>
-          <td>defaultValue</td>
-          <td>moment</td>
-          <td></td>
-          <td>defaultValue like input's defaultValue</td>
-        </tr>
-        <tr>
-          <td>defaultType</td>
-          <td>string</td>
-          <td>date</td>
-          <td>default panel type: date/month</td>
-        </tr>
-        <tr>
-          <td>type</td>
-          <td>string</td>
-          <td></td>
-          <td>panel type: date/month</td>
-        </tr>
-        <tr>
-          <td>onTypeChange</td>
-          <td>function(type)</td>
-          <td></td>
-          <td>called when panel type change</td>
-        </tr>
-        <tr>
-          <td>fullscreen</td>
-          <td>bool</td>
-          <td>false</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>monthCellRender</td>
-          <td>function</td>
-          <td></td>
-          <td>Custom month cell render method</td>
-        </tr>
-        <tr>
-          <td>dateCellRender</td>
-          <td>function</td>
-          <td></td>
-          <td>Custom date cell render method</td>
-        </tr>
-        <tr>
-          <td>monthCellContentRender</td>
-          <td>function</td>
-          <td></td>
-          <td>Custom month cell content render method,the content will be appended to the cell.</td>
-        </tr>
-        <tr>
-          <td>dateCellContentRender</td>
-          <td>function</td>
-          <td></td>
-          <td>Custom date cell content render method,the content will be appended to the cell.</td>
-        </tr>        <tr>
-          <td>onSelect</td>
-          <td>Function(date: moment)</td>
-          <td></td>
-          <td>called when a date is selected from calendar</td>
-        </tr>
-    </tbody>
-</table>
-
-## Test Case
-
-```
-npm test
-```
-
-## Coverage
-
-```
-npm run coverage
-```
-
-open coverage/ dir
+| name | type | default | description |
+| --- | --- | --- | --- |
+| prefixCls | String | | prefix className |
+| Select | React component | | rc-select component class |
+| value | moment | | controlled value |
+| defaultValue | moment | | uncontrolled value |
+| defaultType | String | 'date' | initial panel type (`date`/`month`) |
+| type | String | | controlled panel type |
+| onTypeChange | (type) => void | | called when panel type changes |
+| fullscreen | Boolean | false | fullscreen layout |
+| monthCellRender | function | | custom month cell renderer |
+| dateCellRender | function | | custom date cell renderer |
+| monthCellContentRender | function | | append content to default month cell |
+| dateCellContentRender | function | | append content to default date cell |
+| onSelect | (date: moment) => void | | called when a date/month is selected |
 
 ## License
 
