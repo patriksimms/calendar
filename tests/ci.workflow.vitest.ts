@@ -20,11 +20,13 @@ describe('GitHub Actions CI workflow', () => {
         expect(yml).toMatch(/bun\s+run\s+typecheck/);
         expect(yml).toMatch(/bun\s+run\s+test/);
         expect(yml).toMatch(/bun\s+run\s+build/);
-        expect(yml).toMatch(/npm\s+pack\s+--dry-run/);
+        expect(yml).toMatch(/bun\s+pm\s+pack\s+--dry-run/);
     });
 
-    it('matrixes against Node 20 and Node 22', () => {
-        expect(yml).toMatch(/node-version:\s*\[\s*['"]?20['"]?\s*,\s*['"]?22['"]?\s*\]/);
+    it('uses Bun without a Node version matrix', () => {
+        expect(yml).toMatch(/oven-sh\/setup-bun@v2/);
+        expect(yml).not.toMatch(/actions\/setup-node/);
+        expect(yml).not.toMatch(/node-version:/);
     });
 
     it('triggers on push and pull_request', () => {
