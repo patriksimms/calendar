@@ -48,6 +48,7 @@ describe('examples app', () => {
             if (typeof file !== 'string') continue;
             if (!/\.(js|jsx|ts|tsx)$/.test(file)) continue;
             if (file.startsWith('node_modules')) continue;
+            if (file.startsWith('dist')) continue;
             const full = path.join(examplesDir, file);
             const text = readFileSync(full, 'utf8');
             if (/ReactDOM\.render\(/.test(text)) offenders.push(file);
@@ -103,6 +104,19 @@ describe('examples app', () => {
         expect(app).toMatch(/VITE_REF_NAME/);
         expect(app).toMatch(/VITE_SHORT_SHA/);
         expect(app).toMatch(/BASE_URL/);
+    });
+
+    it('includes README usage and API content in the Pages app', () => {
+        const app = readFileSync(path.join(examplesDir, 'src', 'App.tsx'), 'utf8');
+        const readmeContent = readFileSync(path.join(examplesDir, 'src', 'ReadmeContent.tsx'), 'utf8');
+
+        expect(app).toMatch(/ReadmeContent/);
+        expect(readmeContent).toMatch(/npm install rc-calendar/);
+        expect(readmeContent).toMatch(/import Calendar from 'rc-calendar'/);
+        expect(readmeContent).toMatch(/Calendar props/);
+        expect(readmeContent).toMatch(/RangeCalendar props/);
+        expect(readmeContent).toMatch(/Picker props/);
+        expect(readmeContent).toMatch(/FullCalendar props/);
     });
 
     it('strips rc-menu legacy browser require from the production bundle', () => {

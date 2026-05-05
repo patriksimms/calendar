@@ -5,6 +5,7 @@ import ControlPanel from './demos/ControlPanel';
 import CustomClearIcon from './demos/CustomClearIcon';
 import FullCalendar from './demos/FullCalendar';
 import MonthCalendar from './demos/MonthCalendar';
+import ReadmeContent from './ReadmeContent';
 import RangeCalendar from './demos/RangeCalendar';
 import StartEnd from './demos/StartEnd';
 import StartEndRange from './demos/StartEndRange';
@@ -102,6 +103,7 @@ const App = (): JSX.Element => {
             </header>
             <main>
                 <Active />
+                <ReadmeContent />
             </main>
         </div>
     );
