@@ -14,7 +14,7 @@ export default () => (
     showToday
     showOk={false}
     onChange={action}
-    disabledDate={(now: moment.Moment) => false}
+    disabledDate={(_now: moment.Moment) => false}
     onSelect={action}
     inputMode="numeric"
   />

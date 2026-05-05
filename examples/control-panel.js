@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import Calendar from 'rc-calendar/src';
 import RangeCalendar from 'rc-calendar/src/RangeCalendar';
 
-import Select, { Option } from 'rc-select';
 import 'rc-select/assets/index.css';
 
 class Demo extends React.Component {

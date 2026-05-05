@@ -3,13 +3,16 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "preserve",
     "lib": [
+      "dom",
       "es6"
     ],
     "module": "commonjs",
     "noEmit": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "types": []
   },
   "files": [
     "index.d.ts",

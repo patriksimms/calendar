@@ -1,0 +1,66 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>devops/renovate"
+  ],
+  "assignees": ["patrik.simms"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "recreateWhen": "always",
+    "rebaseWhen": "conflicted",
+    "branchTopic": "lock-file-maintenance",
+    "commitMessageAction": "Lock file maintenance",
+    "schedule": [
+      "before 4pm on monday"
+    ],
+    "prBodyDefinitions": {
+      "Change": "All locks refreshed"
+    }
+  },
+  "packageRules": [
+    {
+      "description": "Group React ecosystem packages into one MR",
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ],
+      "groupName": "React ecosystem"
+    },
+    {
+      "description": "Group rc component packages into one MR",
+      "matchPackageNames": [
+        "rc-dialog",
+        "rc-select",
+        "rc-time-picker",
+        "rc-tools",
+        "rc-trigger",
+        "rc-util"
+      ],
+      "groupName": "rc component ecosystem"
+    },
+    {
+      "description": "Group TypeScript tooling into one MR",
+      "matchPackageNames": [
+        "typescript",
+        "vitest",
+        "oxlint",
+        "oxfmt",
+        "@types/react"
+      ],
+      "groupName": "TypeScript tooling"
+    },
+    {
+      "description": "Automerge patch updates",
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "description": "Require approval for minor and major updates",
+      "matchUpdateTypes": ["minor", "major"],
+      "automerge": false
+    }
+  ]
+}
