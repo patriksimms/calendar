@@ -2,6 +2,12 @@
 
 React Calendar component, built around `moment` for date math and i18n.
 
+## Fork note
+
+This fork exists to keep `rc-calendar` usable in modern React applications,
+especially React 19. It preserves the historical API and examples while
+modernizing the build, tests, demo deployment, and React usage patterns.
+
 ## Features
 
 - date, month, year, decade, and time panels

@@ -112,6 +112,8 @@ describe('examples app', () => {
 
         expect(app).toMatch(/ReadmeContent/);
         expect(readmeContent).toMatch(/npm install rc-calendar/);
+        expect(readmeContent).toMatch(/React 19/);
+        expect(readmeContent).toMatch(/modern React applications/);
         expect(readmeContent).toMatch(/import Calendar from 'rc-calendar'/);
         expect(readmeContent).toMatch(/Calendar props/);
         expect(readmeContent).toMatch(/RangeCalendar props/);

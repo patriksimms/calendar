@@ -99,6 +99,13 @@ const ReadmeContent = (): JSX.Element => (
         <h2 id="documentation">rc-calendar</h2>
         <p>React Calendar component, built around moment for date math and i18n.</p>
 
+        <h3>Fork note</h3>
+        <p>
+            This fork exists to keep <code>rc-calendar</code> usable in modern React applications,
+            especially React 19. It preserves the historical API and examples while modernizing the
+            build, tests, demo deployment, and React usage patterns.
+        </p>
+
         <h3>Installation</h3>
         <pre style={codeStyle}>
             <code>{`npm install rc-calendar

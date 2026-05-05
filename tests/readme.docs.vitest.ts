@@ -19,6 +19,12 @@ describe('README documentation', () => {
         expect(readme).toMatch(/rc-calendar\/assets\/index\.(less|css)/);
     });
 
+    it('explains that this fork targets modern React usage', () => {
+        expect(readme).toMatch(/fork exists/i);
+        expect(readme).toMatch(/modern React applications/i);
+        expect(readme).toMatch(/React 19/);
+    });
+
     it('documents the demo workflow under examples/', () => {
         expect(readme).toMatch(/examples/i);
         expect(readme).toMatch(/bun\s+run\s+dev/);
