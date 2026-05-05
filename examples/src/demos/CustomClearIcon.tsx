@@ -1,5 +1,5 @@
-import Calendar from 'rc-calendar/src/Calendar';
-import RangeCalendarComponent from 'rc-calendar/src/RangeCalendar';
+import Calendar from '@patriksimms/calendar/src/Calendar';
+import RangeCalendarComponent from '@patriksimms/calendar/src/RangeCalendar';
 
 const clearPath =
     'M909.1 209.3l-56.4 44.1C775.8 155.1 656.2 92 521.9 92 290 92 102.3 279.5 102 511.5 ' +

@@ -1,9 +1,9 @@
 import moment from 'moment';
 import 'moment/locale/en-gb';
 import { useState } from 'react';
-import Calendar from 'rc-calendar/src/Calendar';
-import enUS from 'rc-calendar/src/locale/en_US';
-import DatePicker from 'rc-calendar/src/Picker';
+import Calendar from '@patriksimms/calendar/src/Calendar';
+import enUS from '@patriksimms/calendar/src/locale/en_US';
+import DatePicker from '@patriksimms/calendar/src/Picker';
 
 const format = 'YYYY-Wo';
 

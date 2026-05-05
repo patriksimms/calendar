@@ -30,9 +30,9 @@ export default defineConfig({
     root: examplesDir,
     resolve: {
         alias: {
-            'rc-calendar/assets': path.resolve(repoRoot, 'assets'),
-            'rc-calendar/src': path.resolve(repoRoot, 'src'),
-            'rc-calendar': path.resolve(repoRoot, 'src'),
+            '@patriksimms/calendar/assets': path.resolve(repoRoot, 'assets'),
+            '@patriksimms/calendar/src': path.resolve(repoRoot, 'src'),
+            '@patriksimms/calendar': path.resolve(repoRoot, 'src'),
         },
     },
     server: {

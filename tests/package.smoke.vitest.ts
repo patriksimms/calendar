@@ -111,9 +111,11 @@ describe('package smoke', () => {
     it('declares a published manifest free of legacy rc-tools/babel build tooling', () => {
         const pkg = JSON.parse(readFileSync(path.join(root, 'package.json'), 'utf8'));
 
+        expect(pkg.name).toBe('@patriksimms/calendar');
         expect(pkg.main).toBe('lib/index');
         expect(pkg.module).toBe('es/index');
         expect(pkg.types).toBe('index.d.ts');
+        expect(pkg.publishConfig?.access).toBe('public');
 
         const files: string[] = pkg.files ?? [];
         expect(files).toContain('lib');

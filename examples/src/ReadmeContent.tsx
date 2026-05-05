@@ -25,7 +25,7 @@ const cellStyle = {
 
 const calendarProps = [
     ['value / defaultValue', 'moment', 'controlled or uncontrolled selected date'],
-    ['locale', 'Object', 'locale messages, for example rc-calendar/lib/locale/en_US'],
+    ['locale', 'Object', 'locale messages, for example @patriksimms/calendar/lib/locale/en_US'],
     ['format', 'String | String[]', 'input format or accepted parse formats'],
     ['disabledDate', '(current: moment) => boolean', 'disable selection for a date'],
     ['disabledTime', '(current: moment) => Object', 'disable hours, minutes, or seconds'],
@@ -108,16 +108,16 @@ const ReadmeContent = (): JSX.Element => (
 
         <h3>Installation</h3>
         <pre style={codeStyle}>
-            <code>{`npm install rc-calendar
-bun add rc-calendar
-yarn add rc-calendar`}</code>
+            <code>{`npm install @patriksimms/calendar
+bun add @patriksimms/calendar
+yarn add @patriksimms/calendar`}</code>
         </pre>
 
         <h3>Usage</h3>
         <pre style={codeStyle}>
             <code>{`import { createRoot } from 'react-dom/client';
-import Calendar from 'rc-calendar';
-import 'rc-calendar/assets/index.css';
+import Calendar from '@patriksimms/calendar';
+import '@patriksimms/calendar/assets/index.css';
 
 createRoot(document.getElementById('root')).render(<Calendar />);`}</code>
         </pre>
@@ -135,8 +135,8 @@ createRoot(document.getElementById('root')).render(<Calendar />);`}</code>
 
         <h3>Styles</h3>
         <p>
-            Import <code>rc-calendar/assets/index.css</code> for compiled styles, or{' '}
-            <code>rc-calendar/assets/index.less</code> for Less source theming.
+            Import <code>@patriksimms/calendar/assets/index.css</code> for compiled styles, or{' '}
+            <code>@patriksimms/calendar/assets/index.less</code> for Less source theming.
         </p>
 
         <h3>Keyboard</h3>

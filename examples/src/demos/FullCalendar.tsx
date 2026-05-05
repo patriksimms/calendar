@@ -1,8 +1,8 @@
 import moment from 'moment';
 import 'moment/locale/en-gb';
 import { useState } from 'react';
-import FullCalendarComponent from 'rc-calendar/src/FullCalendar';
-import enUS from 'rc-calendar/src/locale/en_US';
+import FullCalendarComponent from '@patriksimms/calendar/src/FullCalendar';
+import enUS from '@patriksimms/calendar/src/locale/en_US';
 import Select from 'rc-select';
 import 'rc-select/assets/index.css';
 

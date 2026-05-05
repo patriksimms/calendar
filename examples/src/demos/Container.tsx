@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import Calendar from 'rc-calendar/src/Calendar';
-import enUS from 'rc-calendar/src/locale/en_US';
-import DatePicker from 'rc-calendar/src/Picker';
+import Calendar from '@patriksimms/calendar/src/Calendar';
+import enUS from '@patriksimms/calendar/src/locale/en_US';
+import DatePicker from '@patriksimms/calendar/src/Picker';
 import Dialog from 'rc-dialog';
 import 'rc-dialog/assets/index.css';
 import moment from 'moment';

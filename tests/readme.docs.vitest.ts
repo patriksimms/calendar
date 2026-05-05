@@ -16,7 +16,7 @@ describe('README documentation', () => {
     });
 
     it('documents installing styles via the assets entry', () => {
-        expect(readme).toMatch(/rc-calendar\/assets\/index\.(less|css)/);
+        expect(readme).toMatch(/@patriksimms\/calendar\/assets\/index\.(less|css)/);
     });
 
     it('explains that this fork targets modern React usage', () => {

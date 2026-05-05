@@ -1,4 +1,4 @@
-# rc-calendar
+# @patriksimms/calendar
 
 React Calendar component, built around `moment` for date math and i18n.
 
@@ -33,19 +33,19 @@ Modern evergreen browsers: latest Chrome, Firefox, Safari, and Edge.
 ## Installation
 
 ```sh
-npm install rc-calendar
+npm install @patriksimms/calendar
 # or
-bun add rc-calendar
+bun add @patriksimms/calendar
 # or
-yarn add rc-calendar
+yarn add @patriksimms/calendar
 ```
 
 ## Usage
 
 ```jsx
 import { createRoot } from 'react-dom/client';
-import Calendar from 'rc-calendar';
-import 'rc-calendar/assets/index.css';
+import Calendar from '@patriksimms/calendar';
+import '@patriksimms/calendar/assets/index.css';
 
 createRoot(document.getElementById('root')).render(<Calendar />);
 ```
@@ -55,8 +55,8 @@ createRoot(document.getElementById('root')).render(<Calendar />);
 The package ships both Less sources and a precompiled stylesheet under
 `assets/`:
 
-- `import 'rc-calendar/assets/index.css';` — drop-in compiled styles.
-- `import 'rc-calendar/assets/index.less';` — Less source for theming.
+- `import '@patriksimms/calendar/assets/index.css';` — drop-in compiled styles.
+- `import '@patriksimms/calendar/assets/index.less';` — Less source for theming.
 
 ## Development
 
@@ -127,7 +127,7 @@ entry.
 | renderFooter | (mode) => ReactNode | | footer renderer |
 | value | moment | | controlled value |
 | defaultValue | moment | | uncontrolled default value |
-| locale | Object | `import 'rc-calendar/lib/locale/en_US'` | locale messages |
+| locale | Object | `import '@patriksimms/calendar/lib/locale/en_US'` | locale messages |
 | format | String \| String[] | locale-dependent | input format(s) |
 | disabledDate | (current: moment) => boolean | | disable selection for a date |
 | disabledTime | (current: moment) => Object | | disable hours/minutes/seconds via rc-time-picker |
@@ -157,7 +157,7 @@ entry.
 | renderFooter | () => ReactNode | | footer renderer |
 | selectedValue | moment[] | | controlled `[start, end]` |
 | defaultSelectedValue | moment[] | | uncontrolled `[start, end]` |
-| locale | Object | `import 'rc-calendar/lib/locale/en_US'` | locale messages |
+| locale | Object | `import '@patriksimms/calendar/lib/locale/en_US'` | locale messages |
 | format | String | locale-dependent | input format |
 | disabledDate | (current: moment) => boolean | | disable selection for a date |
 | showWeekNumber | Boolean | false | show week-of-year column |
@@ -189,7 +189,7 @@ entry.
 | style | Object | | additional style for the root node |
 | value | moment | | controlled value |
 | defaultValue | moment | | uncontrolled default value |
-| locale | Object | `import 'rc-calendar/lib/locale/en_US'` | locale messages |
+| locale | Object | `import '@patriksimms/calendar/lib/locale/en_US'` | locale messages |
 | disabledDate | (current: moment) => boolean | | disable selection for a month |
 | onSelect | (date: moment) => void | | called when a month is selected |
 | onChange | (date: moment) => void | | called when value changes |

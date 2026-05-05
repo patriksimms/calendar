@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Calendar from 'rc-calendar/src';
-import RangeCalendarComponent from 'rc-calendar/src/RangeCalendar';
+import Calendar from '@patriksimms/calendar/src';
+import RangeCalendarComponent from '@patriksimms/calendar/src/RangeCalendar';
 import 'rc-select/assets/index.css';
 
 type Mode = 'time' | 'date' | 'month' | 'year' | 'decade';

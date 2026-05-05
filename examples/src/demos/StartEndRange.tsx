@@ -1,9 +1,9 @@
 import moment from 'moment';
 import 'moment/locale/en-gb';
 import { useState } from 'react';
-import enUS from 'rc-calendar/src/locale/en_US';
-import DatePicker from 'rc-calendar/src/Picker';
-import RangeCalendarComponent from 'rc-calendar/src/RangeCalendar';
+import enUS from '@patriksimms/calendar/src/locale/en_US';
+import DatePicker from '@patriksimms/calendar/src/Picker';
+import RangeCalendarComponent from '@patriksimms/calendar/src/RangeCalendar';
 
 const format = 'YYYY-MM-DD';
 const fullFormat = 'YYYY-MM-DD dddd';
