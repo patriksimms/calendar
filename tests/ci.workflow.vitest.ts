@@ -23,10 +23,10 @@ describe('GitHub Actions CI workflow', () => {
         expect(yml).toMatch(/bun\s+pm\s+pack\s+--dry-run/);
     });
 
-    it('uses Bun without a Node version matrix', () => {
+    it('uses Bun with a Node version compatible with TypeScript configs', () => {
+        expect(yml).toMatch(/actions\/setup-node@v4/);
+        expect(yml).toMatch(/node-version:\s*['"]22['"]/);
         expect(yml).toMatch(/oven-sh\/setup-bun@v2/);
-        expect(yml).not.toMatch(/actions\/setup-node/);
-        expect(yml).not.toMatch(/node-version:/);
     });
 
     it('triggers on push and pull_request', () => {
