@@ -93,6 +93,7 @@ export default class CalendarHeader extends React.Component {
     const selectClassName = `${prefixCls}-${monthBeforeYear ? 'my-select' : 'ym-select'}`;
     const timeClassName = showTimePicker ? ` ${prefixCls}-time-status` : '';
     const year = (<a
+      key="year"
       className={`${prefixCls}-year-select${timeClassName}`}
       role="button"
       onClick={showTimePicker ? null : () => this.showYearPanel('date')}
@@ -101,6 +102,7 @@ export default class CalendarHeader extends React.Component {
       {value.format(locale.yearFormat)}
     </a>);
     const month = (<a
+      key="month"
       className={`${prefixCls}-month-select${timeClassName}`}
       role="button"
       onClick={showTimePicker ? null : this.showMonthPanel}
@@ -111,6 +113,7 @@ export default class CalendarHeader extends React.Component {
     let day;
     if (showTimePicker) {
       day = (<a
+        key="day"
         className={`${prefixCls}-day-select${timeClassName}`}
         role="button"
       >

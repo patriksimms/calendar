@@ -33,15 +33,15 @@ export default class CalendarFooter extends React.Component {
     if (props.showToday || timePicker || extraFooter) {
       let nowEl;
       if (props.showToday) {
-        nowEl = <TodayButton {...props} value={value} />;
+        nowEl = <TodayButton key="today" {...props} value={value} />;
       }
       let okBtn;
       if (showOk === true || showOk !== false && !!props.timePicker) {
-        okBtn = <OkButton {...props} />;
+        okBtn = <OkButton key="ok" {...props} />;
       }
       let timePickerBtn;
       if (!!props.timePicker) {
-        timePickerBtn = <TimePickerButton {...props} />;
+        timePickerBtn = <TimePickerButton key="time-picker" {...props} />;
       }
 
       let footerBtn;

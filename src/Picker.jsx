@@ -4,7 +4,8 @@ import { polyfill } from 'react-lifecycles-compat';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import KeyCode from 'rc-util/lib/KeyCode';
 import placements from './picker/placements';
-import Trigger from 'rc-trigger';
+import './util/findDOMNodePolyfill';
+import Trigger from '@rc-component/trigger';
 
 function noop() {
 }
@@ -211,7 +212,7 @@ class Picker extends React.Component {
         builtinPlacements={placements}
         popupPlacement={placement}
         action={(disabled && !state.open) ? [] : ['click']}
-        destroyPopupOnHide
+        autoDestroy
         getPopupContainer={getCalendarContainer}
         popupStyle={style}
         popupAnimation={animation}

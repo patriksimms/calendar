@@ -8,6 +8,7 @@ const examplesDir = path.dirname(__filename);
 const repoRoot = path.resolve(examplesDir, '..');
 
 export default defineConfig({
+    base: process.env.VITE_BASE || '/',
     plugins: [react()],
     root: examplesDir,
     resolve: {
