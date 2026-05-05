@@ -16,6 +16,14 @@ type Demo = {
     Component: () => JSX.Element;
 };
 
+const deployInfo = [
+    ['Package', import.meta.env.VITE_PACKAGE_VERSION],
+    ['Repository', import.meta.env.VITE_REPOSITORY],
+    ['Branch', import.meta.env.VITE_REF_NAME],
+    ['Commit', import.meta.env.VITE_SHORT_SHA],
+    ['Pages base', import.meta.env.BASE_URL],
+].filter((entry): entry is [string, string] => Boolean(entry[1]));
+
 const demos: Demo[] = [
     { slug: 'basic', label: 'Basic', Component: Basic },
     { slug: 'range', label: 'Range', Component: RangeCalendar },
@@ -50,6 +58,26 @@ const App = (): JSX.Element => {
         <div style={{ fontFamily: 'system-ui, sans-serif', padding: 16 }}>
             <header style={{ borderBottom: '1px solid #ddd', paddingBottom: 12, marginBottom: 16 }}>
                 <h1 style={{ margin: '0 0 8px' }}>rc-calendar examples</h1>
+                {deployInfo.length > 0 ? (
+                    <dl
+                        aria-label="Pages deployment information"
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: '4px 16px',
+                            margin: '0 0 12px',
+                            color: '#666',
+                            fontSize: 12,
+                        }}
+                    >
+                        {deployInfo.map(([label, value]) => (
+                            <div key={label} style={{ display: 'flex', gap: 4 }}>
+                                <dt style={{ fontWeight: 600 }}>{label}:</dt>
+                                <dd style={{ margin: 0 }}>{value}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                ) : null}
                 <nav style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                     {demos.map((demo) => {
                         const isActive = demo.slug === active.slug;

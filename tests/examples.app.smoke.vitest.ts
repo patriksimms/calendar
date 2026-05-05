@@ -74,6 +74,37 @@ describe('examples app', () => {
         expect(expected.filter((file) => !names.includes(file))).toEqual([]);
     });
 
+    it('keeps legacy Pages example URLs as redirects into the Vite app', () => {
+        const redirects: Record<string, string> = {
+            'antd-calendar.html': '#/basic',
+            'antd-month-calendar.html': '#/month',
+            'antd-range-calendar.html': '#/range',
+            'control-panel.html': '#/control-panel',
+            'custom-clear-icon.html': '#/custom-clear-icon',
+            'full-calendar.html': '#/full',
+            'getCalendarContainer.html': '#/container',
+            'start-end.html': '#/start-end',
+            'start-end-range.html': '#/start-end-range',
+            'week.html': '#/week',
+        };
+
+        for (const [file, hash] of Object.entries(redirects)) {
+            const html = readFileSync(path.join(examplesDir, 'public', file), 'utf8');
+            expect(html).toContain(hash);
+        }
+    });
+
+    it('renders Pages deployment information from Vite environment values', () => {
+        const app = readFileSync(path.join(examplesDir, 'src', 'App.tsx'), 'utf8');
+
+        expect(app).toMatch(/Pages deployment information/);
+        expect(app).toMatch(/VITE_PACKAGE_VERSION/);
+        expect(app).toMatch(/VITE_REPOSITORY/);
+        expect(app).toMatch(/VITE_REF_NAME/);
+        expect(app).toMatch(/VITE_SHORT_SHA/);
+        expect(app).toMatch(/BASE_URL/);
+    });
+
     it('imports the calendar package through workspace source paths', () => {
         const basic = readFileSync(path.join(examplesDir, 'src', 'demos', 'Basic.tsx'), 'utf8');
         expect(basic).toMatch(/from\s+['"][^'"]*src\/Calendar['"]/);

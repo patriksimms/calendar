@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 const __filename = fileURLToPath(import.meta.url);
 const root = path.resolve(path.dirname(__filename), '..');
 const workflowPath = path.join(root, '.github', 'workflows', 'ci.yml');
+const pagesWorkflowPath = path.join(root, '.github', 'workflows', 'pages.yml');
 
 describe('GitHub Actions CI workflow', () => {
     it('exists at .github/workflows/ci.yml', () => {
@@ -32,5 +33,21 @@ describe('GitHub Actions CI workflow', () => {
     it('triggers on push and pull_request', () => {
         expect(yml).toMatch(/on:\s*\n[\s\S]*push:/);
         expect(yml).toMatch(/pull_request:/);
+    });
+});
+
+describe('GitHub Actions Pages workflow', () => {
+    it('deploys the examples app with current repository deployment metadata', () => {
+        const yml = readFileSync(pagesWorkflowPath, 'utf8');
+
+        expect(yml).toMatch(/oven-sh\/setup-bun@v2/);
+        expect(yml).toMatch(/working-directory:\s*examples/);
+        expect(yml).toMatch(/VITE_BASE:\s*\/\$\{\{\s*github\.event\.repository\.name\s*\}\}\//);
+        expect(yml).toMatch(/VITE_PACKAGE_VERSION/);
+        expect(yml).toMatch(/VITE_REPOSITORY:\s*\$\{\{\s*github\.repository\s*\}\}/);
+        expect(yml).toMatch(/VITE_REF_NAME:\s*\$\{\{\s*github\.ref_name\s*\}\}/);
+        expect(yml).toMatch(/VITE_SHORT_SHA/);
+        expect(yml).toMatch(/path:\s*examples\/dist/);
+        expect(yml).toMatch(/actions\/deploy-pages@v4/);
     });
 });
