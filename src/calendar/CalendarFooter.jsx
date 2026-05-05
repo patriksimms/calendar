@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import toFragment from 'rc-util/lib/Children/mapSelf';
 import cx from 'classnames';
@@ -24,10 +23,6 @@ export default class CalendarFooter extends React.Component {
 
   onSelect(value) {
     this.props.onSelect(value);
-  }
-
-  getRootDOMNode() {
-    return ReactDOM.findDOMNode(this);
   }
 
   render() {

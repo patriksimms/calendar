@@ -39,42 +39,29 @@
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "test": "vitest --run",
-    "test:jest": "jest",
     "typecheck": "tsc --noEmit",
     "types": "tsc --noEmit",
-    "coverage": "jest --coverage"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "setupFiles": [
-      "./tests/setup.js"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "testURL": "http://localhost"
+    "coverage": "vitest --run --coverage"
   },
   "peerDependencies": {
     "react": ">=16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": ">=16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@types/react": "^16.3.13",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.1",
-    "jest": "^22.1.4",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "jsdom": "^29.1.1",
     "less": "^4.0.0",
-    "mockdate": "^2.0.1",
     "oxfmt": "^0.47.0",
     "oxlint": "^1.62.0",
     "rc-dialog": "^7.0.0",
     "rc-select": "^9.1.5",
     "rc-time-picker": "^3.1.0",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
+    "react": "^19",
+    "react-dom": "^19",
     "tsdown": "^0.21.10",
     "typescript": "^5.0.0",
     "vitest": "^4.1.5"

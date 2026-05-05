@@ -1,3 +1,75 @@
+## EE-109 — React 19-compatible runtime + RTL test foundation (2026-05-05)
+
+Made calendar runtime + tests React 19-compatible.
+
+What landed:
+- Bumped peer/dev React + React DOM to ^19; added @testing-library/react,
+  @testing-library/jest-dom, @testing-library/dom, jsdom for the new test path.
+- Removed dead `getRootDOMNode = () => ReactDOM.findDOMNode(this)` methods from
+  `src/Calendar.jsx`, `src/calendar/CalendarFooter.jsx`, and
+  `src/date/DateInput.jsx`. They had no callers and dragged in findDOMNode (which
+  React 19 no longer exports).
+- `src/Picker.jsx` no longer calls `ReactDOM.findDOMNode(this).focus()` on
+  ESC/clear/ok/today close. It now stores a ref to the user-rendered child via
+  `cloneElement({ ref: this.saveTriggerRef })` and calls
+  `this.triggerInstance.focus()`.
+- `src/Calendar.jsx` no longer relies on `DateInput.getInstance()`. It holds a
+  ref to its own DateInput and calls `getInputDOMNode()` on it for the
+  `componentDidMount` focusElement save and the `onBlur` activeElement check.
+  DateInput keeps the legacy static `getInstance()` for backward compat (still
+  used by no-one inside this package), but routes its own focus + DOM node
+  access through an instance field.
+- `src/util/findDOMNodePolyfill.js` ships a small fiber-walking polyfill that
+  re-installs `ReactDOM.findDOMNode` if React 19 has removed it. It is loaded
+  by `src/index.js` and by the test setup so transitive deps that still call
+  `findDOMNode` (notably `rc-trigger` 2.x and `rc-align` 2.x, which we keep
+  pinned per package.json) keep working at runtime under React 19. If those
+  packages are upgraded to versions that don't call findDOMNode, the polyfill
+  becomes a no-op and can be removed.
+- New Vitest + RTL test foundation (`tests/*.dom.vitest.tsx`):
+  - `Calendar.dom.vitest.tsx` — renders the date panel; click selects a date;
+    today button selects today; clear button calls onClear + onSelect(null);
+    disabledDate prevents selection; OK button fires onOk(selectedValue);
+    ArrowDown moves selection forward by a week; clicking the month-select
+    opens the month panel; custom locale renders translated text.
+  - `DateInput.dom.vitest.tsx` — typing valid date emits onChange; bad input
+    flags invalid; disabled date typed in input is rejected; clear button
+    empties the input; Enter fires onSelect.
+  - `Picker.dom.vitest.tsx` — clicking the trigger opens the calendar; ESC
+    closes it AND restores focus to the trigger (asserts via
+    `document.activeElement`); ArrowDown opens a closed picker; selecting a
+    cell emits onChange; onOpenChange fires on visibility transitions.
+  - `RangeCalendar.dom.vitest.tsx` — renders default and custom separator;
+    selects start then end; right-panel next-month button advances to May;
+    disabled cells get the disabled class; showClear icon fires onClear; today
+    button updates the visible panel.
+  - `TimeIntegration.dom.vitest.tsx` — time-picker button toggles the
+    time-picker panel; selecting a date with a time-picker default value
+    bakes the time into the resulting input string.
+- `vitest.config.ts` now uses `environment: 'jsdom'` (vitest v4 dropped
+  `environmentMatchGlobs`), pulls JSX through oxc with `runtime: 'automatic'`,
+  and points at `tests/vitest.setup.ts` (which loads jest-dom matchers and the
+  findDOMNode polyfill, and runs `cleanup()` after each test).
+- Retired the legacy Enzyme/Jest suite per the EE-109 acceptance criteria:
+  removed all `tests/*.spec.{js,jsx}` files, `tests/__snapshots__/`,
+  `tests/__mocks__/`, `tests/EnzymeExt.js`, `tests/setup.js`, the `jest`
+  config + `test:jest` + `coverage` (jest) script in `package.json`, and the
+  `enzyme*`, `jest`, `enzyme-to-json`, `mockdate` dev deps. `bun run test`
+  is the only test path now (53 tests, all green, includes the prior package
+  smoke test).
+
+Notes for the next person:
+- Date semantics in tests assume the system clock. The old Jest setup pinned
+  `moment` to 2017-03-29 via `mockdate`. The new RTL tests pass explicit dates
+  to `defaultValue`/`defaultSelectedValue`, so they don't need a frozen clock.
+- The findDOMNode polyfill is a compatibility shim for transitive deps. If you
+  upgrade `rc-trigger` to v5+/`@rc-component/trigger` you can drop both the
+  polyfill module import in `src/index.js` and the one in the test setup.
+- The PRD (#107) lists user stories 11/12/14–22/30–33/40 covered by this slice.
+  The new vitest suite asserts external DOM behavior + callbacks, never
+  Enzyme-style internal state — those are the AC for "Tests assert external
+  DOM behavior and callbacks rather than Enzyme implementation internals."
+
 ## EE-108 — Modernize calendar package build (2026-05-05)
 
 Replaced legacy rc-tools/Babel build with tsdown (rolldown-based).

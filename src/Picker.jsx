@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { polyfill } from 'react-lifecycles-compat';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
@@ -64,6 +63,7 @@ class Picker extends React.Component {
     }
     const value = props.value || props.defaultValue;
     this.saveCalendarRef = refFn.bind(this, 'calendarInstance');
+    this.saveTriggerRef = refFn.bind(this, 'triggerInstance');
 
     this.state = {
       open,
@@ -182,8 +182,8 @@ class Picker extends React.Component {
   }
 
   focus = () => {
-    if (!this.state.open) {
-      ReactDOM.findDOMNode(this).focus();
+    if (!this.state.open && this.triggerInstance && this.triggerInstance.focus) {
+      this.triggerInstance.focus();
     }
   }
 
@@ -221,7 +221,10 @@ class Picker extends React.Component {
         prefixCls={prefixCls}
         popupClassName={dropdownClassName}
       >
-        {React.cloneElement(children(state, props), { onKeyDown: this.onKeyDown })}
+        {React.cloneElement(children(state, props), {
+          onKeyDown: this.onKeyDown,
+          ref: this.saveTriggerRef,
+        })}
       </Trigger>
     );
   }

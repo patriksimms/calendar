@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { polyfill } from 'react-lifecycles-compat';
@@ -88,9 +87,13 @@ class Calendar extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.showDateInput) {
-      this.saveFocusElement(DateInput.getInstance());
+    if (this.props.showDateInput && this.dateInputRef) {
+      this.saveFocusElement(this.dateInputRef.getInputDOMNode());
     }
+  }
+
+  saveDateInput = (dateInput) => {
+    this.dateInputRef = dateInput;
   }
 
   onPanelChange = (value, mode) => {
@@ -215,7 +218,7 @@ class Calendar extends React.Component {
 
   onBlur = (event) => {
     setTimeout(() => {
-      const dateInput = DateInput.getInstance();
+      const dateInput = this.dateInputRef && this.dateInputRef.getInputDOMNode();
       const rootInstance = this.rootInstance;
 
       if (!rootInstance || rootInstance.contains(document.activeElement) ||
@@ -248,10 +251,6 @@ class Calendar extends React.Component {
     }
 
     return newState;
-  }
-
-  getRootDOMNode = () => {
-    return ReactDOM.findDOMNode(this);
   }
 
   openTimePicker = () => {
@@ -305,6 +304,7 @@ class Calendar extends React.Component {
 
     const dateInputElement = props.showDateInput ? (
       <DateInput
+        ref={this.saveDateInput}
         format={this.getFormat()}
         key="date-input"
         value={value}

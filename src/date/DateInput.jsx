@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { polyfill } from 'react-lifecycles-compat';
@@ -151,17 +150,18 @@ class DateInput extends React.Component {
     return dateInputInstance;
   }
 
-  getRootDOMNode = () => {
-    return ReactDOM.findDOMNode(this);
+  getInputDOMNode = () => {
+    return this.dateInputRef;
   }
 
   focus = () => {
-    if (dateInputInstance) {
-      dateInputInstance.focus();
+    if (this.dateInputRef) {
+      this.dateInputRef.focus();
     }
   }
 
   saveDateInput = (dateInput) => {
+    this.dateInputRef = dateInput;
     dateInputInstance = dateInput;
   }
 
